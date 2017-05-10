@@ -1,8 +1,8 @@
-const HTTP_PORT_NUMBER =8080;
+const HTTP_PORT_NUMBER =5000;
 
 const express = require('express');
 const app = express();
-
+app.set('port', (process.env.PORT || HTTP_PORT_NUMBER));
 // app.configure(function(){
     // app.use(app.router);
 // });
@@ -30,8 +30,8 @@ app.post('/location',(req,res)=>{
 
 
 
-app.listen(8080, () => {
-  console.log('LinkMapper is listening for HTTP on port ' + HTTP_PORT_NUMBER);
+app.listen(app.get('port'), () => {
+  console.log('LinkMapper is listening for HTTP on port ' + app.get('port'));
 });
 
 

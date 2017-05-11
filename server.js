@@ -1,4 +1,4 @@
-const HTTP_PORT_NUMBER =5000;
+const HTTP_PORT_NUMBER =8080;
 
 const express = require('express');
 const app = express();
@@ -24,7 +24,7 @@ app.get('/testGeo', (req, res) => {
 
 app.post('/location',(req,res)=>{
   console.log(req);
-  res.send(req);
+  res.send(JSON.stringify(req));
 });
 
 

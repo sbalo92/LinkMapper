@@ -1,14 +1,22 @@
-const HTTP_PORT_NUMBER =8080;
+const HTTP_PORT_NUMBER = 8080;
 
 const express = require('express');
 const app = express();
+
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+
+
+
 app.set('port', (process.env.PORT || HTTP_PORT_NUMBER));
 // app.configure(function(){
-    // app.use(app.router);
+// app.use(app.router);
 // });
 
-const jsts = require("jsts");
-const wgs84GeoFac = new jsts.geom.GeometryFactory(new jsts.geom.PrecisionModel(), 4326);
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index/index.html');
 });
@@ -16,15 +24,11 @@ app.get('/index/*.js', (req, res) => {
   console.log("index called with request " + req.url);
   res.sendFile(__dirname + req.url);
 });
-app.get('/testGeo', (req, res) => {
-  const testGeo = wgs84GeoFac.createPoint(new jsts.geom.Coordinate(12, 20));
-  // console.log(testGeo);
-  res.send(new jsts.io.GeoJSONWriter(wgs84GeoFac).write(testGeo));
-});
 
-app.post('/location',(req,res)=>{
-  console.log(req);
-  res.send(req);
+
+app.post('/location', (req, res) => {
+  console.log(req.body);
+  res.send(JSON.stringify(req.body));
 });
 
 

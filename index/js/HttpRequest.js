@@ -23,6 +23,6 @@ class HttpRequest {
     static post(url, json,onSuccess,onFailure){
         const xmlHttp =HttpRequest.HttpRequest(url,onSuccess,onFailure);
         xmlHttp.open("POST", url, true); // true for asynchronous 
-        xmlHttp.send(json);
+        xmlHttp.send(JSON.stringofy(json));
     }
 }

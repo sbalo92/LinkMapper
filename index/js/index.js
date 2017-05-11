@@ -1,27 +1,27 @@
 
 (() => {
     const leafMap = new LeafMap({ mapDiv: "mm" });
-    let geoPromise = new Promise((resolve, reject) => {
-        HttpRequest.get(window.location.origin + "/testGeo",
-            (response) => {
-                // console.log(response);
-                resolve(response);
-            },
-            (response) => {
-                console.log(response);
-                reject(response);
-            }
-        );
-    });
-    geoPromise.then(
-        (geo) => {
-            console.log(geo);
-            leafMap.addGeoJson(JSON.parse(geo));
-        },
-        (failure) => {
-            console.log(failure);
-        }
-    );
+    // let geoPromise = new Promise((resolve, reject) => {
+    //     HttpRequest.get(window.location.origin + "/testGeo",
+    //         (response) => {
+    //             // console.log(response);
+    //             resolve(response);
+    //         },
+    //         (response) => {
+    //             console.log(response);
+    //             reject(response);
+    //         }
+    //     );
+    // });
+    // geoPromise.then(
+    //     (geo) => {
+    //         console.log(geo);
+    //         leafMap.addGeoJson(JSON.parse(geo));
+    //     },
+    //     (failure) => {
+    //         console.log(failure);
+    //     }
+    // );
     HttpRequest.post(window.location.origin + "/location", { test: "data" }, (response) => {
         console.log(response);
     },

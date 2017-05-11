@@ -22,12 +22,12 @@
     //         console.log(failure);
     //     }
     // );
-    HttpRequest.post(window.location.origin + "/location", { test: "data" }, (response) => {
-        console.log(response);
-    },
-        (response) => {
-            console.log("fail", response);
-        });
+    // HttpRequest.post(window.location.origin + "/location", { test: "data" }, (response) => {
+    //     console.log(response);
+    // },
+    //     (response) => {
+    //         console.log("fail", response);
+    //     });
     navigator.geolocation.getCurrentPosition((geoposition) => {
         if (typeof geoposition.coords.latitude === "undefined" ||
             typeof geoposition.coords.longitude === "undefined") {

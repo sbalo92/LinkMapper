@@ -24,7 +24,7 @@ app.get('/testGeo', (req, res) => {
 
 app.post('/location',(req,res)=>{
   console.log(req);
-  res.send(JSON.stringify(req));
+  res.send(req);
 });
 
 

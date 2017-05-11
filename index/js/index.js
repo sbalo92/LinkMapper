@@ -28,7 +28,7 @@
             typeof geoposition.coords.longitude === "undefined") {
             return;
         }
-        HttpRequest.post(window.location.origin+"/location",geoposition,(response)=>{
+        HttpRequest.post(window.location.origin+"/location",geoposition.coords,(response)=>{
             console.log("succeess ", response);
         },
         (response)=>{

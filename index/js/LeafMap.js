@@ -15,15 +15,28 @@ class LeafMap extends BaseClass {
     centreToUser() {
         navigator.geolocation.getCurrentPosition((geoposition) => {
             if (typeof geoposition.coords.latitude === "undefined" ||
-                typeof geoposition.coords.longitude === "undefined") {
+                typeof geoposition.coords.longitude === "undefined"
+            ) {
                 return;
             }
-            this._map.setView(new L.LatLng(geoposition.coords.latitude, geoposition.coords.longitude), 9);
+            this._map.setView(new L.LatLng(geoposition.coords.latitude,
+                geoposition.coords.longitude), 9);
         });
 
     }
     addGeoJson(geoJson) {
         L.geoJSON(geoJson).addTo(this._map);
     }
+    getGeoJson(lat, lng) {
+        return {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [lng, lat]
+            }
+        }
+    }
+
+
 
 }

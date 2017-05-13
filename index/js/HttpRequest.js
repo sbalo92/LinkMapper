@@ -1,31 +1,47 @@
-class HttpRequest {
-    constructor() { };
-    static HttpRequest(url,onSuccess, onFailure){
-         const xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = () => {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                if (typeof onFailure === "function") {
-                    onSuccess(xmlHttp.responseText);
-                }
-            } else if (xmlHttp.readyState == 4) {
-                if (typeof onFailure === "function") {
-                    onFailure(xmlHttp.responseText);
+var temp;
+(() => {
+    class HttpRequestClass {
+        constructor() {};
+        static HttpRequest(url, onSuccess, onFailure) {
+            const xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = () => {
+                if (xmlHttp.readyState == 4 && xmlHttp.status ==
+                    200) {
+                    if (typeof onFailure === "function") {
+                        onSuccess(xmlHttp.responseText);
+                    }
+                } else if (xmlHttp.readyState == 4) {
+                    if (typeof onFailure === "function") {
+                        onFailure(xmlHttp.responseText);
+                    }
                 }
             }
+            return xmlHttp;
         }
-        return xmlHttp;
+        static get(url, onSuccess, onFailure) {
+            const xmlHttp = HttpRequest.HttpRequest(url, onSuccess,
+                onFailure);
+            xmlHttp.open("GET", url, true); // true for asynchronous
+            xmlHttp.send(null);
+        }
+        static post(url, data, onSuccess, onFailure) {
+            const xmlHttp = HttpRequest.HttpRequest(url, onSuccess,
+                onFailure);
+            xmlHttp.open("POST", url, true); // true for asynchronous
+            xmlHttp.setRequestHeader("Content-type", "application/json");
+            let strData = JSON.stringify(data);
+            console.log("posting this", strData);
+            xmlHttp.send(strData);
+        }
     }
-    static get(url, onSuccess, onFailure) {
-        const xmlHttp =HttpRequest.HttpRequest(url,onSuccess,onFailure);
-        xmlHttp.open("GET", url, true); // true for asynchronous 
-        xmlHttp.send(null);
+    temp = HttpRequestClass;
+})();
+const HttpRequest = (() => {
+    return temp;
+})();
+() => {
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = HttpRequest;
     }
-    static post(url, data, onSuccess,onFailure){
-        const xmlHttp =HttpRequest.HttpRequest(url,onSuccess,onFailure);
-        xmlHttp.open("POST", url, true); // true for asynchronous 
-        xmlHttp.setRequestHeader("Content-type", "application/json");
-        let strData = JSON.stringify(data);
-        console.log("posting this", strData);
-        xmlHttp.send(strData);
-    }
+    console.log("HttpRequest loaded");
 }

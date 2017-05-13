@@ -1,13 +1,17 @@
 const HTTP_PORT_NUMBER = 8080;
+const BaseClass = require("./index/js/BaseClass.js");
+console.log(BaseClass);
 
 const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
 const dal = require("./dal.js");
+const GeoIp = require("./index/js/GeoIp.js");
+
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
-  extended: true
+    extended: true
 }));
 
 
@@ -19,23 +23,29 @@ app.set('port', (process.env.PORT || HTTP_PORT_NUMBER));
 
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index/index.html');
+    res.sendFile(__dirname + '/index/index.html');
 });
 app.get('/index/*.js', (req, res) => {
-  console.log("index called with request " + req.url);
-  res.sendFile(__dirname + req.url);
+    console.log("index called with request " + req.url);
+    res.sendFile(__dirname + req.url);
 });
 
 
 app.post('/location', (req, res) => {
-  console.log(req.body);
-  res.send(JSON.stringify(req.body));
+    const locationPackage = {
+        ip: req.ip,
+        body: req.body
+    };
+    GeoIp.locate(locationPackage.ip);
+    console.log(locationPackage);
+    res.send(JSON.stringify(locationPackage));
 });
 
 
 
 app.listen(app.get('port'), () => {
-  console.log('LinkMapper is listening for HTTP on port ' + app.get('port'));
+    console.log('LinkMapper is listening for HTTP on port ' + app.get(
+        'port'));
 });
 
 

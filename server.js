@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
 }));
 
 
-
 app.set('port', (process.env.PORT || HTTP_PORT_NUMBER));
 // app.configure(function(){
 // app.use(app.router);
@@ -36,9 +35,14 @@ app.post('/location', (req, res) => {
         ip: req.ip,
         body: req.body
     };
-    GeoIp.locate(locationPackage.ip);
-    console.log(locationPackage);
-    res.send(JSON.stringify(locationPackage));
+    const finish = (ipLocation) => {
+        locationPackage.ipLocation = ipLocation;
+        console.log(locationPackage);
+        res.send(locationPackage);
+    };
+
+    GeoIp.locate(locationPackage.ip, finish, finish);
+
 });
 
 

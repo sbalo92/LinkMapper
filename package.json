@@ -2,10 +2,11 @@
   "name": "LinkMapper",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "dal.js",
   "dependencies": {
     "body-parser": "^1.17.1",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {},
   "scripts": {

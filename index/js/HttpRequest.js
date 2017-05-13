@@ -1,13 +1,17 @@
-var temp;
+var hrTemp;
 (() => {
+
+    const XR = typeof XMLHttpRequest !== "undefined" ? XMLHttpRequest :
+        require("xmlhttprequest").XMLHttpRequest;
+
     class HttpRequestClass {
         constructor() {};
         static HttpRequest(url, onSuccess, onFailure) {
-            const xmlHttp = new XMLHttpRequest();
+            const xmlHttp = new XR();
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState == 4 && xmlHttp.status ==
                     200) {
-                    if (typeof onFailure === "function") {
+                    if (typeof onSucces === "function") {
                         onSuccess(xmlHttp.responseText);
                     }
                 } else if (xmlHttp.readyState == 4) {
@@ -34,14 +38,12 @@ var temp;
             xmlHttp.send(strData);
         }
     }
-    temp = HttpRequestClass;
+    hrTemp = HttpRequestClass;
 })();
 const HttpRequest = (() => {
-    return temp;
+    return hrTemp;
 })();
-() => {
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = HttpRequest;
-    }
-    console.log("HttpRequest loaded");
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = HttpRequest;
 }
+console.log("HttpRequest loaded");

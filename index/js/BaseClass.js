@@ -11,6 +11,7 @@ class BaseClass {
             }
 
         }
+
     }
     get _params() {
         if (typeof this.__paramKeys !== "undefined") {
@@ -23,7 +24,6 @@ class BaseClass {
         return null;
     }
 }
-
 
 
 if (typeof module !== 'undefined' && module.exports) {

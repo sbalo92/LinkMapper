@@ -43,7 +43,7 @@
         HttpRequest.post(window.location.origin + "/location",
             payload, (
                 response) => {
-                console.log("succeess ", response);
+                console.log("succeess ", JSON.parse(response));
             }, (response) => {
                 console.log("failure ", response);
             });

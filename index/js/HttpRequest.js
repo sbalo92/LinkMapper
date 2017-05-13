@@ -11,7 +11,7 @@ var hrTemp;
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState == 4 && xmlHttp.status ==
                     200) {
-                    if (typeof onSucces === "function") {
+                    if (typeof onSuccess === "function") {
                         onSuccess(xmlHttp.responseText);
                     }
                 } else if (xmlHttp.readyState == 4) {

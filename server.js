@@ -31,12 +31,22 @@ app.get('/index/*.js', (req, res) => {
 
 
 app.post('/location', (req, res) => {
+    const geoLocation = {
+        lng: req.body.lng,
+        lat: req.body.lat
+    }
     const locationPackage = {
         ip: req.ip,
-        body: req.body
+        geoLocation: geoLocation
     };
-    const finish = (ipLocation) => {
-        locationPackage.ipLocation = ipLocation;
+    const finish = (ipLocationString) => {
+        const ipLocation = JSON.parse(ipLocationString);
+        if (typeof ipLocation !== "undefined" || ipLocation !==
+            null) {
+            locationPackage.ipLocation = ipLocation;
+            locationPackage.ipLocation.lat = ipLocation.latitude;
+            locationPackage.ipLocation.lng = ipLocation.longitude;
+        }
         console.log(locationPackage);
         res.send(locationPackage);
     };

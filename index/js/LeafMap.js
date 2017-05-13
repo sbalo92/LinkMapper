@@ -25,9 +25,30 @@ class LeafMap extends BaseClass {
 
     }
     addGeoJson(geoJson) {
-        L.geoJSON(geoJson).addTo(this._map);
+        if (typeof geoJson === "undefined" || geoJson === null) {
+            return;
+        }
+        const mapObject = L.geoJSON(geoJson);
+        mapObject.addTo(this._map);
+        return mapObject;
+    }
+    fitToMapObjects() {
+        const geoArray = [];
+        for (let i = 0; i < arguments.length; i++) {
+            if (typeof arguments[i] !== "undefined" && arguments[i] !==
+                null) {
+                geoArray.push(arguments[i]);
+            }
+        }
+        if (geoArray.length > 0) {
+            const group = new L.featureGroup(geoArray);
+            this._map.fitBounds(group.getBounds());
+        }
     }
     getGeoJson(lat, lng) {
+        if (typeof lat !== "number" || typeof lng !== "number") {
+            return undefined;
+        }
         return {
             "type": "Feature",
             "geometry": {

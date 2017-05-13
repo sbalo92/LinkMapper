@@ -30,20 +30,38 @@
     //         console.log("fail", response);
     //     });
     navigator.geolocation.getCurrentPosition((geoposition) => {
-        if (typeof geoposition.coords.latitude === "undefined" ||
-            typeof geoposition.coords.longitude === "undefined") {
-            return;
-        }
         const payload = {
             lng: geoposition.coords.longitude,
             lat: geoposition.coords.latitude
         };
-        leafMap.addGeoJson(leafMap.getGeoJson(payload.lat, payload.lng));
+
+        // if (typeof geoposition.coords.latitude === "undefined" ||
+        //     typeof geoposition.coords.longitude === "undefined") {
+        //     return;
+        // }
+
+
         console.log("location payload", payload)
         HttpRequest.post(window.location.origin + "/location",
             payload, (
                 response) => {
-                console.log("succeess ", JSON.parse(response));
+                console.log("succeess ", response);
+                const processed = JSON.parse(response);
+                console.log(processed);
+                const markers = []
+                const geoMarker = leafMap.addGeoJson(leafMap.getGeoJson(
+                    processed
+                    .geoLocation
+                    .lat, processed.geoLocation.lng));
+                if (typeof processed.ipLocation === "undefined") {
+                    console.log("no ip location");
+                    return;
+                }
+                const ipMarker = leafMap.addGeoJson(leafMap.getGeoJson(
+                    processed
+                    .ipLocation.lat, processed.ipLocation
+                    .lng));
+                leafMap.fitToMapObjects(geoMarker, ipMarker);
             }, (response) => {
                 console.log("failure ", response);
             });

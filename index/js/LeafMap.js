@@ -24,11 +24,15 @@ class LeafMap extends BaseClass {
         });
 
     }
-    addGeoJson(geoJson) {
+    addGeoJson(geoJson, popupText) {
         if (typeof geoJson === "undefined" || geoJson === null) {
             return;
         }
         const mapObject = L.geoJSON(geoJson);
+
+        if (typeof popupText === "string") {
+            mapObject.bindPopup(popupText);
+        }
         mapObject.addTo(this._map);
         return mapObject;
     }
@@ -40,7 +44,7 @@ class LeafMap extends BaseClass {
                 geoArray.push(arguments[i]);
             }
         }
-        if (geoArray.length > 0) {
+        if (geoArray.length > 1) {
             const group = new L.featureGroup(geoArray);
             this._map.fitBounds(group.getBounds());
         }

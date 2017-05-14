@@ -31,27 +31,55 @@ app.get('/index/*.js', (req, res) => {
 
 
 app.post('/location', (req, res) => {
-    const geoLocation = {
-        lng: req.body.lng,
-        lat: req.body.lat
-    }
-    const locationPackage = {
-        ip: req.ip,
-        geoLocation: geoLocation
-    };
-    const finish = (ipLocationString) => {
-        const ipLocation = JSON.parse(ipLocationString);
-        if (typeof ipLocation !== "undefined" || ipLocation !==
-            null) {
-            locationPackage.ipLocation = ipLocation;
-            locationPackage.ipLocation.lat = ipLocation.latitude;
-            locationPackage.ipLocation.lng = ipLocation.longitude;
-        }
-        console.log(locationPackage);
-        res.send(locationPackage);
-    };
+    // const geoLocation = {
+    //     lng: req.body.lng,
+    //     lat: req.body.lat
+    // }
+    // const locationPackage = {
+    //     ip: req.ip,
+    //     geoLocation: geoLocation
+    // };
+    // const finish = (ipLocationString) => {
+    //     const ipLocation = JSON.parse(ipLocationString);
+    //     if (typeof ipLocation !== "undefined" || ipLocation !==
+    //         null) {
+    //         locationPackage.ipLocation = ipLocation;
+    //         locationPackage.ipLocation.lat = ipLocation.latitude;
+    //         locationPackage.ipLocation.lng = ipLocation.longitude;
+    //     }
+    //     console.log(locationPackage);
+    //     res.send(locationPackage);
+    // };
 
-    GeoIp.locate(locationPackage.ip, finish, finish);
+    const lp = {
+        htmlLat: req.body.htmlLat,
+        htmlLng: req.body.htmlLng,
+        ipLat: req.body.ipLat,
+        ipLng: req.body.ipLng,
+    }
+
+    function finish() {
+        console.log("location request", lp);
+        res.send(lp);
+    }
+
+    if (typeof lp.ipLat === "undefined" || typeof lp.ipLng === "undefined" ||
+        lp.ipLat === null || lp.ipLng === null) {
+        GeoIp.locate(req.ip, (ipLocationString) => {
+            const ipLocation = JSON.parse(ipLocationString);
+            console.log(req.ip, ipLocation);
+            if (typeof ipLocation !== "undefined" || ipLocation !==
+                null) {
+                lp.ipLat = ipLocation.latitude;
+                lp.ipLng = ipLocation.longitude;
+            }
+            finish();
+        }, finish);
+    } else {
+        finish();
+    }
+
+    // GeoIp.locate(locationPackage.ip, finish, finish);
 
 });
 
